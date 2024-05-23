@@ -37,12 +37,6 @@ data_filtered = pd.read_csv("hi.csv")
 data_filtered.head()
 
 
-# In[8]:
-
-
-print(folium.__version__)
-
-
 # In[9]:
 
 
@@ -63,9 +57,7 @@ total_data = pd.read_csv("hi.csv")
 
 total_data['Region'] = total_data['Region'].replace({'Dublin and Mid-East': 'Mid-East', 'Midland': 'Midlands'})
 
-# Ensure the column names match for merging
-print(gdf.columns)  # Check column names in the shapefile
-print(total_data.columns)  # Check column names in the dataset
+
 # Simplify geometries to reduce memory usage
 gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=True)
 
@@ -73,7 +65,7 @@ gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=Tru
 merged = gdf.merge(total_data, left_on='NUTS3NAME', right_on='Region')
 
 
-# In[ ]:
+# In[20]:
 
 
 # Cache the GeoDataFrame for faster processing
