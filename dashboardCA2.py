@@ -73,17 +73,8 @@ gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=Tru
 merged = gdf.merge(total_data, left_on='NUTS3NAME', right_on='Region')
 
 
-# In[17]:
+# In[ ]:
 
-
-# Sum all "Statistic Labels" by year for each region
-total_data = data_filtered.groupby(['Year', 'Region', 'Statistic Label'])['VALUE'].sum().reset_index()
-
-# Ensure the column names match for merging
-total_data['Region'] = total_data['Region'].replace({'Dublin and Mid-East': 'Mid-East', 'Midland': 'Midlands'})
-
-# Simplify geometries to reduce memory usage
-gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=True)
 
 # Cache the GeoDataFrame for faster processing
 geojson_data = gdf.to_json()
@@ -140,7 +131,15 @@ selected_year = st.selectbox('Select Year', total_data['Year'].unique())
 # Generate and display folium map
 st.subheader('Agriculture Data Map')
 folium_map = create_folium_map(selected_year)
-folium_static(folium_map)
+
+# Save the map to an HTML file
+folium_map.save("map.html")
+
+# Read the HTML file and display it in Streamlit
+with open("map.html", "r") as f:
+    map_html = f.read()
+
+st.components.v1.html(map_html, height=600)
 
 # Dropdowns for region and statistic label selection
 selected_region = st.selectbox('Select Region', total_data['Region'].unique())
