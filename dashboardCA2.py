@@ -4,19 +4,19 @@
 # In[1]:
 
 
-pip install streamlit
+#pip install streamlit
 
 
 # In[2]:
 
 
-pip install pydeck
+#pip install pydeck
 
 
 # In[3]:
 
 
-pip install streamlit folium streamlit-folium
+#pip install streamlit folium streamlit-folium
 
 
 # In[4]:
@@ -31,7 +31,7 @@ import pandas as pd
 data_filtered = pd.read_csv("hi.csv")
 
 
-# In[12]:
+# In[18]:
 
 
 data_filtered.head()
@@ -73,7 +73,7 @@ gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=Tru
 merged = gdf.merge(total_data, left_on='NUTS3NAME', right_on='Region')
 
 
-# In[ ]:
+# In[17]:
 
 
 # Sum all "Statistic Labels" by year for each region
