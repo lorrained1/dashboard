@@ -25,19 +25,7 @@
 import pandas as pd
 
 
-# In[5]:
-
-
-data_filtered = pd.read_csv("hi.csv")
-
-
-# In[18]:
-
-
-data_filtered.head()
-
-
-# In[9]:
+# In[21]:
 
 
 import geopandas as gpd
@@ -46,27 +34,47 @@ from folium.features import GeoJsonTooltip
 import branca.colormap as cm
 import streamlit as st
 import plotly.express as px
-from streamlit_folium import folium_static
 
 
-# In[16]:
+# In[38]:
 
 
-total_data = pd.read_csv("hi.csv")
+data_filtered = pd.read_csv("hi.csv")
 
 
-total_data['Region'] = total_data['Region'].replace({'Dublin and Mid-East': 'Mid-East', 'Midland': 'Midlands'})
+# In[39]:
+
+
+data_filtered.head()
+
+
+# In[40]:
+
+
+# Load the shapefile
+gdf = gpd.read_file('NUTS3.shp')
+
+data_filtered['Region'] = data_filtered['Region'].replace({'Dublin and Mid-East': 'Mid-East', 'Midland': 'Midlands'})
 
 
 # Simplify geometries to reduce memory usage
 gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=True)
 
 # Merge the dataset with the shapefile
-merged = gdf.merge(total_data, left_on='NUTS3NAME', right_on='Region')
+merged = gdf.merge(data_filtered, left_on='NUTS3NAME', right_on='Region')
 
 
-# In[20]:
+# In[ ]:
 
+
+# Sum all "Statistic Labels" by year for each region
+#total_data = data_filtered.groupby(['Year', 'Region', 'Statistic Label'])['VALUE'].sum().reset_index()
+total_data = data_filtered
+# Ensure the column names match for merging
+total_data['Region'] = total_data['Region'].replace({'Dublin and Mid-East': 'Mid-East', 'Midland': 'Midlands'})
+
+# Simplify geometries to reduce memory usage
+gdf['geometry'] = gdf['geometry'].simplify(tolerance=0.01, preserve_topology=True)
 
 # Cache the GeoDataFrame for faster processing
 geojson_data = gdf.to_json()
@@ -152,6 +160,12 @@ data_for_pie_chart = total_data[total_data['Year'] == selected_year]
 st.subheader(f'Agriculture Value Distribution by Region for {selected_year}')
 pie_fig = px.pie(data_for_pie_chart, names='Region', values='VALUE', title=f'Agriculture Value Distribution by Region for {selected_year}')
 st.plotly_chart(pie_fig)
+
+
+# In[ ]:
+
+
+total_data.head(10)
 
 
 # In[ ]:
