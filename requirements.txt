@@ -2,8 +2,6 @@ pandas
 panel 
 hvplot
 folium
-Choropleth 
-GeoJsonTooltip
 geopandas 
 LinearRegression
 numpy
