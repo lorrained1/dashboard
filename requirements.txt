@@ -1,6 +1,6 @@
 pandas 
 panel 
-hvplot.pandas
+hvplot
 folium
 Choropleth 
 GeoJsonTooltip
