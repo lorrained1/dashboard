@@ -1,0 +1,10 @@
+pandas 
+panel 
+hvplot.pandas
+folium
+Choropleth 
+GeoJsonTooltip
+geopandas 
+LinearRegression
+numpy
+matplotlib
